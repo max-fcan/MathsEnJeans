@@ -1,5 +1,7 @@
 import numpy as np
 
+DECIMAL_PRECISION = 6
+
 def measure_efficiency_square(length: float = 0, edge: float = 1):
     """
     Measures the efficiency of a road configuration of cities disposed
@@ -55,7 +57,13 @@ def measure_efficiency_square(length: float = 0, edge: float = 1):
 
 
 if __name__ == "__main__":
-    lengths = [i for i in range(11)]
+    lengths = np.arange(0.3, 0.5, 1/(10 ** DECIMAL_PRECISION))
     
+    min_dist = [100, 100]
     for i in lengths:
-        print(i*2/10, measure_efficiency_square(i*2/10, edge=2))
+        avg_dist, total_road, efficiency = measure_efficiency_square(float(i), edge=1)
+        # print(i, avg_dist, total_road, efficiency)
+        if min_dist == [None, None] or total_road < min_dist[0]:
+            min_dist = [total_road, i]
+    
+    print("Minimum road length:", float(min_dist[0]), "at length:", float(min_dist[1]))
